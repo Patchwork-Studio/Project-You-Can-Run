@@ -1,29 +1,11 @@
-var tdScript = document.getElementById("topDown");
-var mainScript = document.getElementById("main");
 
-var arena = //all variables for map combat
-[
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 0, 0, 0, 0, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-]
+
 var collidableArena = [];
 
-
-var enemyArrayC = [slime];
 createMapC();
-
 
 function createMapC()
 {
-	
     for (var row = 0; row < ROWS; row++)
 	{
 		for (var col = 0; col < COLS; col++)
@@ -36,7 +18,9 @@ function createMapC()
 		}
 	}
 	player.img = images[3];
-	slime.img = images[2];
+	slime1.img = images[2];
+    slime2.img = images[2];
+    slime3.img = images[2];
 }
 
 function setTileTypeC(t, r, c)
@@ -81,27 +65,32 @@ function checkCollisionC(collidable)
 
 function checkCollisionEnemyC()
 {
-    for(var a = 0; a < enemyArrayC.length; a++)
+    for(var a = 0; a < enemyArray.length; a++)
     {
-        if (!(player.y+32 > enemyArrayC[a].y+48 || //player top, enemy bottom
-              player.y+50 < enemyArrayC[a].y    || //player bottom, enemy top
-              player.x+14 > enemyArrayC[a].x+48 || //player left, enemy right
-              player.x+48 < enemyArrayC[a].x   ))  //player right, enemy left
+        if (enemyArray[a].inCombat == true)
         {
-			if(!(player.y+32 > enemyArrayC[a].y || //player top, enemy bottom
-				player.y+50 < enemyArrayC[a].y    || //player bottom, enemy top
-				player.x+14 > enemyArrayC[a].x+48 || //player left, enemy right
-				player.x+48 < enemyArrayC[a].x)){
-				
-				player.x = 0;
-				player.y = 585;
-				inCombat = false;
-			}
-			else{
-				
-				uInt = clearInterval(update);
-				window.alert("GAMEOVER");
-			}
+            if (!(player.y+32 > enemyArray[a].ArenaY+48 || //player top, enemy bottom
+                  player.y+50 < enemyArray[a].ArenaY    || //player bottom, enemy top
+                  player.x+14 > enemyArray[a].ArenaX+48 || //player left, enemy right
+                  player.x+48 < enemyArray[a].ArenaX   ))  //player right, enemy left
+            {
+                if(!(player.y+32 > enemyArray[a].ArenaY || //player top, enemy bottom
+                    player.y+50 < enemyArray[a].ArenaY    || //player bottom, enemy top
+                    player.x+14 > enemyArray[a].ArenaX+48 || //player left, enemy right
+                    player.x+48 < enemyArray[a].ArenaX))
+                {	
+                    player.x = player.topDownX;
+                    player.y = player.topDownY;
+                    enemyArray[a].isAlive = false;
+                    enemyArray[a].inCombat = false;
+                    inCombat = false;
+                }
+                else{
+
+                    uInt = clearInterval(update);
+                    window.alert("GAMEOVER");
+                }
+            }
         }
     }
 }
@@ -116,6 +105,20 @@ function movePlayerArena()
         {
             player.inAir = true;
             player.jump = true;
+        }
+}
+
+function slimeMovement()
+{
+	for (var a = 0; a < enemyArray.length; a++)
+        {
+            enemyArray[a].ArenaX += enemyArray[a].Speed;
+            enemyArray[a].changeTimer += 16.67;
+			if(enemyArray[a].changeTimer >= enemyArray[a].changeTime){
+				
+				enemyArray[a].changeTimer = 0;
+				enemyArray[a].Speed *= -1;
+			}
         }
 }
 
@@ -166,9 +169,15 @@ function renderSidescroll()
 					  64*player.Sprite, 0, 64, 64, 	// Source rectangle.
 					  player.x, player.y, 64, 64);  // Position and size on canvas.
 					  
-	surface.drawImage(slime.img,
-                     134, 166, 732, 560,
-                     slime.x, slime.y, 48, 40);
+	for (var a = 0; a < enemyArray.length; a++)
+        {
+            if(enemyArray[a].inCombat == true)
+                {
+                    surface.drawImage(enemyArray[a].img,
+                                    134, 166, 732, 560,
+                                    enemyArray[a].ArenaX, enemyArray[a].ArenaY, 48, 40);
+                }
+        }
 }
 
 function updateCombat()
@@ -177,6 +186,7 @@ function updateCombat()
 	checkCollisionEnemyC();
     renderSidescroll();
     movePlayerArena();
+	slimeMovement();
     playerJump();
     gravity();
 }

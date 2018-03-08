@@ -1,28 +1,11 @@
-var cScript = document.getElementById("combat");
-var mainScript = document.getElementById("main");
 
-var map =   //all variables for map top down
-[
-    [0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
-    [0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-    [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
-    [1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-    [0, 0, 0, 1, 1, 0, 1, 1, 0, 1],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-    [0, 0, 0, 1, 0, 1, 1, 0, 0, 0],
-    [1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-    [0, 0, 0, 1, 1, 0, 1, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-] 
+
 var collidableTopdown = [];
 
-
-var enemyArrayTD = [slime];
 createMapTD();
 
 function createMapTD()
 {
-	
 	for (var row = 0; row < ROWS; row++)
 	{
 		for (var col = 0; col < COLS; col++)
@@ -31,17 +14,18 @@ function createMapTD()
 			tile.x = col*64;  // Add custom x property.
 			tile.y = row*64;  // Add custom y property.
 			setTileTypeTD(tile, row, col);
-			map[row][col] = tile; // Tile object is stored in 2D array.
+			map[level][row][col] = tile; // Tile object is stored in 2D array.
 		}
 	}
     player.img = images[3];
-slime.img = images[2];
-	
+    slime1.img = images[2];
+    slime2.img = images[2];
+    slime3.img = images[2];
 }
 
 function setTileTypeTD(t, r, c)
 {
-    if(map[r][c] == 1)
+    if(map[level][r][c] == 1)
         {
 			t.img = images[1];
             collidableTopdown.push(t); //add tile to collidable array
@@ -81,18 +65,22 @@ function checkCollisionTD(collidable)
 
 function checkCollisionEnemyTD()
 {
-    for(var a = 0; a < enemyArrayTD.length; a++)
+    for(var a = 0; a < enemyArray.length; a++)
     {
-        if (!(player.y+32 > enemyArrayTD[a].y+48 || //player top, enemy bottom
-              player.y+50 < enemyArrayTD[a].y    || //player bottom, enemy top
-              player.x+14 > enemyArrayTD[a].x+48 || //player left, enemy right
-              player.x+48 < enemyArrayTD[a].x   ))  //player right, enemy left
+        if (!(player.y+32 > enemyArray[a].y+48 || //player top, enemy bottom
+              player.y+50 < enemyArray[a].y    || //player bottom, enemy top
+              player.x+14 > enemyArray[a].x+48 || //player left, enemy right
+              player.x+48 < enemyArray[a].x   ))  //player right, enemy left
         {
-			player.topDownX = player.x;
-            player.topDownY = player.y;
-			inCombat = true;
-			player.y = 512;
-            player.x = 64;
+            if (enemyArray[a].isAlive == true)
+                {
+                    player.topDownX = player.x;
+                    player.topDownY = player.y;
+			         inCombat = true;
+			         player.y = 512;
+                    player.x = 64;
+                    enemyArray[a].inCombat = true;
+                }
         }
     }
 }
@@ -116,15 +104,21 @@ function renderTopdown()
 	{
 		for (var col = 0; col < COLS; col++)
 		{
-			surface.drawImage(map[row][col].img, map[row][col].x, map[row][col].y);
+			surface.drawImage(map[level][row][col].img, map[level][row][col].x, map[level][row][col].y);
 		}
 	}
 	surface.drawImage(player.img,
 					  64*player.Sprite, 0, 64, 64, 	// Source rectangle.
 					  player.x, player.y, 64, 64);  // Position and size on canvas.
-    surface.drawImage(slime.img,
-                     134, 166, 732, 560,
-                     slime.x, slime.y, 48, 40);
+    for (var a = 0; a < enemyArray.length; a++)
+        {
+            if(enemyArray[a].isAlive == true)
+                {
+                    surface.drawImage(enemyArray[a].img,
+                                      134, 166, 732, 560,
+                                      enemyArray[a].x, enemyArray[a].y, 48, 40);
+                }
+        }
 }
 
 function updateTopDown()
