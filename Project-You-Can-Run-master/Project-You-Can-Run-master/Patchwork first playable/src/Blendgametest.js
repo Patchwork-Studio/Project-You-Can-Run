@@ -5,7 +5,7 @@ canvas.height = 640;
 var surface = canvas.getContext("2d");
 var uInt; 
 
-var map =   //all variables for map
+var map =   //all variables for map top down
 [
     [0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
     [0, 1, 1, 1, 0, 1, 0, 1, 0, 1],
@@ -15,13 +15,13 @@ var map =   //all variables for map
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
     [0, 0, 0, 1, 0, 1, 1, 0, 0, 0],
     [1, 1, 0, 1, 0, 0, 1, 0, 1, 0],    
-    [1, 1, 0, 1, 1, 0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 1, 0, 1, 0, 1, 0],
     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],   
 ] 
 var collidableTopdown = [];
 const ROWS = 10;
 const COLS = 10;
-var arena = 
+var arena = //all variables for map combat
 [
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -63,7 +63,14 @@ var slime =
         x:395,
         y:70,
     }
+var slimeC =
+    {
+        img:null,
+        x:395,
+        y:70,
+    }
 var enemyArray = [slime];
+var enemyArrayArena = [slimeC];
 
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
@@ -92,6 +99,7 @@ function topDown()
 function sideScroll()
 {
     checkCollision(collidableArena);
+	checkCollisionEnemyArena();
     renderSidescroll();
     movePlayerArena();
     playerJump();
@@ -130,6 +138,7 @@ function createMap()
 	}
 	player.img = images[3];
     slime.img = images[2];
+	slimeC.img = images[2];
 	uInt = setInterval(update, 33.34); // Start off at 30 frames per second.
 }
 
@@ -198,6 +207,34 @@ function checkCollisionEnemy()
 			inCombat = true;
             player.y = 512;
             player.x = 64;
+        }
+    }
+}
+
+function checkCollisionEnemyArena()
+{
+    for(var a = 0; a < enemyArrayArena.length; a++)
+    {
+        if (!(player.y+32 > enemyArrayArena[a].y+48 || //player top, enemy bottom
+              player.y+50 < enemyArrayArena[a].y    || //player bottom, enemy top
+              player.x+14 > enemyArrayArena[a].x+48 || //player left, enemy right
+              player.x+48 < enemyArrayArena[a].x   ))  //player right, enemy left
+        {
+			if(!(player.y+32 > enemyArrayArena[a].y || //player top, enemy bottom
+				player.y+50 < enemyArrayArena[a].y    || //player bottom, enemy top
+				player.x+14 > enemyArrayArena[a].x+48 || //player left, enemy right
+				player.x+48 < enemyArrayArena[a].x)){
+				
+				player.x = 0;
+				player.y = 585;
+				inCombat = false;
+				
+			}
+			else{
+				
+				uInt = clearInterval(update);
+				window.alert("GAMEOVER");
+			}
         }
     }
 }
@@ -304,13 +341,6 @@ function onKeyDown(event)
                 downPressed = true;
             }
 			break;
-        case 27:
-            {
-                player.x = player.topDownX;
-                player.y = player.topDownY - 32; //temp subtraction until enemy dissapears after combat
-                inCombat = false;
-            break;
-            }
 	} 
 }
 
@@ -392,4 +422,8 @@ function renderSidescroll()
 	surface.drawImage(player.img,
 					  64*player.Sprite, 0, 64, 64, 	// Source rectangle.
 					  player.x, player.y, 64, 64);  // Position and size on canvas.
+					  
+	surface.drawImage(slimeC.img,
+                     134, 166, 732, 560,
+                     slime.x, slime.y, 48, 40);
 }
