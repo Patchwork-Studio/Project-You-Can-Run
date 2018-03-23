@@ -22,6 +22,7 @@ function createMapTD()
     slime1.img = images[4];
     slime2.img = images[4];
     slime3.img = images[4];
+	slime4.img = images[4];
 }
 
 function setTileTypeTD(t, r, c)
@@ -66,21 +67,26 @@ function checkCollisionTD(collidable)
 
 function checkCollisionEnemyTD()
 {
-    for(var a = 0; a < enemyArray.length; a++)
+    for(var a = 0; a < enemyArray[level].length; a++)
     {
-        if (!(player.y+32 > enemyArray[a].y+48 || //player top, enemy bottom
-              player.y+50 < enemyArray[a].y    || //player bottom, enemy top
-              player.x+14 > enemyArray[a].x+48 || //player left, enemy right
-              player.x+48 < enemyArray[a].x   ))  //player right, enemy left
+        if (!(player.y+32 > enemyArray[level][a][0].y+48 || //player top, enemy bottom
+              player.y+50 < enemyArray[level][a][0].y    || //player bottom, enemy top
+              player.x+14 > enemyArray[level][a][0].x+48 || //player left, enemy right
+              player.x+48 < enemyArray[level][a][0].x   ))  //player right, enemy left
         {
-            if (enemyArray[a].isAlive == true)
+            if (enemyArray[level][a][0].isAlive == true)
                 {
                     player.topDownX = player.x;
                     player.topDownY = player.y;
 			         inCombat = true;
 			         player.y = 512;
                     player.x = 64;
-                    enemyArray[a].inCombat = true;
+					for(b = 0; b < enemyArray[level][a].length; b++){
+                    
+						enemyArray[level][a][b].inCombat = true;
+						numEnemies++;
+					}
+					numEnemies -= 1;
                 }
         }
     }
@@ -118,13 +124,13 @@ function renderTopdown()
             64*player.Sprite, 0, 72, 72, 	// Source rectangle.
             player.x, player.y, 72, 72);  // Position and size on canvas.
     
-    for (var a = 0; a < enemyArray.length; a++)
+    for (var a = 0; a < enemyArray[level].length; a++)
         {
-            if(enemyArray[a].isAlive == true)
+            if(enemyArray[level][a][0].isAlive == true)
                 {
-                    surface.drawImage(enemyArray[a].img,
+                    surface.drawImage(enemyArray[level][a][0].img,
                                       0, 0, 64, 64,
-                                      enemyArray[a].x, enemyArray[a].y, 72, 72);
+                                      enemyArray[level][a][0].x, enemyArray[level][a][0].y, 72, 72);
                 }
         }
 }

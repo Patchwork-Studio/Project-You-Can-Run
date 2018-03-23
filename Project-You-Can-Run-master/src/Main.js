@@ -8,6 +8,11 @@ var uInt;
 var context = canvas.getContext("2d");
 var surface = canvas.getContext("2d");
 
+var eScript = document.createElement("script");
+eScript.src = "Enemies.js";
+eScript.setAttribute("id", "enemies");
+document.body.appendChild(eScript);
+
 var levelScript = document.createElement("script");
 levelScript.src = "Levels.js";
 levelScript.setAttribute("id", "levels");
@@ -51,6 +56,7 @@ window.addEventListener("keyup", onKeyUp);
 
 var play = false;
 var inCombat = false;
+var levelComplete = false;
 var tKey = 0, cKey = 0;
 
 var level = 0;
@@ -90,51 +96,11 @@ var player =    // all variables for player
         jumptimer:0,
     };
 
-var slime1 =
-    {
-        img:null,
-        x:395,
-        y:70,
-        ArenaX:180,
-        ArenaY:140,
-		Speed:4,
-		changeTime: 1000,
-		changeTimer: 0,
-        isAlive: true,
-        inCombat: false
-    }
 
-var slime2 =
-    {
-        img:null,
-        x:580,
-        y:580,
-        ArenaX:180,
-        ArenaY:140,
-		Speed:4,
-		changeTime: 1000,
-		changeTimer: 0,
-        isAlive: true,
-        inCombat: false
-    }
-
-var slime3 =
-    {
-        img:null,
-        x:76,
-        y:332,
-        ArenaX:180,
-        ArenaY:140,
-		Speed:4,
-		changeTime: 1000,
-		changeTimer: 0,
-        isAlive: true,
-        inCombat: false
-    }
 
     var gameTimer = setInterval(function(){
           gameTime--;
-          console.log(gameTime);
+          //console.log(gameTime);
           document.getElementById('timer').innerHTML = gameTime;
           if(gameTime <= 0){
             player.x = 0;
@@ -197,21 +163,52 @@ function update()
     {
 	   sideScroll();
 	}
-    if (slime1.isAlive == false && slime2.isAlive == false && slime3.isAlive == false)
+	
+	checkLevelPass();
+	
+	
+    if (levelComplete)
         {
             level = level + 1;
             collidableTopdown = [];
             if (level >=3) {
-              window.alert("Congratulations, you win!");
+			
+				level = 0;
+				window.alert("Congratulations, you win!");
             }
             createMapTD();
             player.x = 0;
             player.y = 576;
-            for ( a = 0; a < enemyArray.length; a++)
-                {
-                    enemyArray[a].isAlive = true;
-                }
+			/*
+            for ( a = 0; a < enemyArray[level].length; a++)
+			{
+				for(var b = 0; b < enemyArray[level][a]; b++){
+					
+					enemyArray[level][a][b].isAlive = true;
+				}
+            }*/
+			resetEnemies();
         }
+}
+
+function checkLevelPass(){
+	
+	for(var d = 0; d < enemyArray[level].length; d++){
+		
+		if(enemyArray[level][d][0].isAlive){
+			
+			levelComplete = false;
+			return;
+		}
+	}
+	levelComplete = true;
+}
+
+function resetEnemies(){
+	
+	slime1.isAlive = true;
+	slime2.isAlive = true;
+	slime3.isAlive = true;
 }
 
 function topDown()

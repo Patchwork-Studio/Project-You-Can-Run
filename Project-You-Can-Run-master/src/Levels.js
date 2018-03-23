@@ -42,7 +42,12 @@ var map =
     
 ]
 
-var enemyArray = [slime1, slime2, slime3];
+var enemyArray = 
+[
+	[[slime1, slime1, slime4], [slime2, slime2], [slime3, slime3]],
+	[[slime1, slime1], [slime2, slime2], [slime3, slime3]],
+	[[slime1, slime1], [slime2, slime2], [slime3, slime3]],
+]
 
 var arena =
 [

@@ -2,6 +2,7 @@
 
 var collidableArena = [];
 var spriteFrameCounter = 0;
+var numEnemies = 0;
 
 createMapC();
 
@@ -22,6 +23,7 @@ function createMapC()
 	slime1.img = images[4];
     slime2.img = images[4];
     slime3.img = images[4];
+	slime4.img = images[4];
 }
 
 function setTileTypeC(t, r, c)
@@ -62,65 +64,74 @@ function checkCollisionC(collidable)
 			}
 
         }
-		for (var a = 0; a < enemyArray.length; a++)
+		for (var a = 0; a < enemyArray[level].length; a++)
 		{
 		// extra testing conditions to prevent infinate loops approx. 8px difference for safety
-
+		for(var b = 1; b < enemyArray[level][a].length; b++){
 		// this is enemy collision
-		if((enemyArray[a].ArenaY+32 < collidable[c].y+64)&&(!(enemyArray[a].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[a].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[a].ArenaX + 22 > collidable[c].x + 64)))
+		if((enemyArray[level][a][b].ArenaY+32 < collidable[c].y+64)&&(!(enemyArray[level][a][b].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[level][a][b].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[level][a][b].ArenaX + 22 > collidable[c].x + 64)))
             {
-				enemyArray[a].ArenaY = collidable[c].y + 32;
+				enemyArray[level][a][b].ArenaY = collidable[c].y + 32;
 			}
-			else if((enemyArray[a].ArenaY+54 > collidable[c].y)&&(!(enemyArray[a].ArenaY + 40 > collidable[c].y + 64))&&(!(enemyArray[a].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[a].ArenaX + 22 > collidable[c].x + 64)))
+			else if((enemyArray[level][a][b].ArenaY+54 > collidable[c].y)&&(!(enemyArray[level][a][b].ArenaY + 40 > collidable[c].y + 64))&&(!(enemyArray[level][a][b].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[level][a][b].ArenaX + 22 > collidable[c].x + 64)))
             {
-				enemyArray[a].ArenaY = collidable[c].y - 54;
+				enemyArray[level][a][b].ArenaY = collidable[c].y - 54;
 			}
-			else if((enemyArray[a].ArenaX+14 < collidable[c].x+64)&&(!(enemyArray[a].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[a].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[a].ArenaY + 40 > collidable[c].y + 64)))
+			else if((enemyArray[level][a][b].ArenaX+14 < collidable[c].x+64)&&(!(enemyArray[level][a][b].ArenaX + 40 < collidable[c].x))&&(!(enemyArray[level][a][b].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[level][a][b].ArenaY + 40 > collidable[c].y + 64)))
             {
-				enemyArray[a].ArenaX = collidable[c].x + 50;
+				enemyArray[level][a][b].ArenaX = collidable[c].x + 50;
 			}
-			else if((enemyArray[a].ArenaX+48 > collidable[c].x)&&(!(enemyArray[a].ArenaX + 22 > collidable[c].x + 64))&&(!(enemyArray[a].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[a].ArenaY + 40 > collidable[c].y + 64)))
+			else if((enemyArray[level][a][b].ArenaX+48 > collidable[c].x)&&(!(enemyArray[level][a][b].ArenaX + 22 > collidable[c].x + 64))&&(!(enemyArray[level][a][b].ArenaY + 46 < collidable[c].y))&&(!(enemyArray[level][a][b].ArenaY + 40 > collidable[c].y + 64)))
             {
-				enemyArray[a].ArenaX = collidable[c].x - 48;
+				enemyArray[level][a][b].ArenaX = collidable[c].x - 48;
 
 			}
+		}
 		}
     }
 }
 
 function checkCollisionEnemyC()
 {
-    for(var a = 0; a < enemyArray.length; a++)
+    for(var a = 0; a < enemyArray[level].length; a++)
     {
-        if (enemyArray[a].inCombat == true)
+		for(var b = 1; b < enemyArray[level][a].length; b++){
+        if (enemyArray[level][a][b].inCombat == true)
         {
-            if (!(player.y+32 > enemyArray[a].ArenaY+48 || //player top, enemy bottom
-                  player.y+50 < enemyArray[a].ArenaY    || //player bottom, enemy top
-                  player.x+14 > enemyArray[a].ArenaX+48 || //player left, enemy right
-                  player.x+48 < enemyArray[a].ArenaX   ))  //player right, enemy left
+            if (!(player.y+32 > enemyArray[level][a][b].ArenaY+48 || //player top, enemy bottom
+                  player.y+50 < enemyArray[level][a][b].ArenaY    || //player bottom, enemy top
+                  player.x+14 > enemyArray[level][a][b].ArenaX+48 || //player left, enemy right
+                  player.x+48 < enemyArray[level][a][b].ArenaX   ))  //player right, enemy left
             {
-                if(!(player.y+32 > enemyArray[a].ArenaY || //player top, enemy bottom
-                    player.y+50 < enemyArray[a].ArenaY    || //player bottom, enemy top
-                    player.x+14 > enemyArray[a].ArenaX+48 || //player left, enemy right
-                    player.x+48 < enemyArray[a].ArenaX))
+                if(!(player.y+32 > enemyArray[level][a][b].ArenaY || //player top, enemy bottom
+                    player.y+50 < enemyArray[level][a][b].ArenaY    || //player bottom, enemy top
+                    player.x+14 > enemyArray[level][a][b].ArenaX+48 || //player left, enemy right
+                    player.x+48 < enemyArray[level][a][b].ArenaX))
                 {
-                    player.x = player.topDownX;
-                    player.y = player.topDownY;
-                    enemyArray[a].isAlive = false;
-                    enemyArray[a].inCombat = false;
-                    inCombat = false;
+                    enemyArray[level][a][b].isAlive = false;
+                    enemyArray[level][a][b].inCombat = false;
+					numEnemies -= 1;
+					
+					if(numEnemies == 0){
+						player.x = player.topDownX;
+						player.y = player.topDownY;
+						numEnemies = 0;
+						inCombat = false;
+					}
                 }
                 else{
 
                     uInt = clearInterval(update);
                     player.x = 0;
                     player.y = 576;
-                    enemyArray[a].inCombat = false;
+                    enemyArray[level][a][b].inCombat = false;
+					numEnemies = 0;
                     inCombat = false;
                     window.alert("GAMEOVER");
                 }
             }
         }
+		}
     }
 }
 
@@ -145,23 +156,29 @@ function movePlayerArena()
 function slimeMovement()
 {
     spriteFrameCounter++;
-	for (var a = 0; a < enemyArray.length; a++)
+	for (var a = 0; a < enemyArray[level].length; a++)
         {
-            enemyArray[a].ArenaX += enemyArray[a].Speed;
-            enemyArray[a].changeTimer += 16.67;
-			if(enemyArray[a].changeTimer >= enemyArray[a].changeTime){
+			for(var b = 1; b < enemyArray[level][a].length; b++){
+			if(enemyArray[level][a][b].moveType == 0)
+				enemyArray[level][a][b].ArenaX += enemyArray[level][a][b].Speed;
+			else
+				enemyArray[level][a][b].ArenaY += enemyArray[level][a][b].Speed;
+			
+            enemyArray[level][a][b].changeTimer += 16.67;
+			if(enemyArray[level][a][b].changeTimer >= enemyArray[level][a][b].changeTime){
 
-				enemyArray[a].changeTimer = 0;
-                enemyArray[a].Speed *= -1;
+				enemyArray[level][a][b].changeTimer = 0;
+                enemyArray[level][a][b].Speed *= -1;
             }
 
             if (spriteFrameCounter % 5 == 0) {
-                if (enemyArray[a].Speed > 0) {
-                    enemyArray[a].img = enemyArray[a].img == images[4] ? images[5] : images[4];
+                if (enemyArray[level][a][b].Speed > 0) {
+                    enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[4] ? images[5] : images[4];
                 } else {
-                    enemyArray[a].img = enemyArray[a].img == images[6] ? images[7] : images[6];
+                    enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[6] ? images[7] : images[6];
                 }
             }
+			}
         }
 }
 
@@ -212,14 +229,16 @@ function renderSidescroll()
 					  64*player.Sprite, 0, 64, 64, 	// Source rectangle.
 					  player.x, player.y, 64, 64);  // Position and size on canvas.
 
-	for (var a = 0; a < enemyArray.length; a++)
+	for (var a = 0; a < enemyArray[level].length; a++)
         {
-            if(enemyArray[a].inCombat == true)
+			for(var b = 1; b < enemyArray[level][a].length; b++){
+            if(enemyArray[level][a][b].inCombat == true)
                 {
-                    surface.drawImage(enemyArray[a].img,
+                    surface.drawImage(enemyArray[level][a][b].img,
                                     0, 0, 64, 64,
-                                    enemyArray[a].ArenaX, enemyArray[a].ArenaY, 64, 64);
+                                    enemyArray[level][a][b].ArenaX, enemyArray[level][a][b].ArenaY, 64, 64);
                 }
+			}
         }
 }
 
@@ -232,13 +251,17 @@ function updateCombat()
 	slimeMovement();
     playerJump();
     gravity();
-
-    for (let index = 0; index < enemyArray.length; index++) {
-        enemyArray[i].img = images[6];
+/*
+    for (let index = 0; index < enemyArray[level].length; index++) {
+		
+		for(b = 1; b < enemyArray[level][index]; b++){
+			
+			enemyArray[level][i][b].img = images[6];
+		}
     }
 
     slime1.img = images[6];
-}
+*/}
 
 function loopSprites(startIndex, endIndex) {
     if (curSpriteIndex < endIndex) {
