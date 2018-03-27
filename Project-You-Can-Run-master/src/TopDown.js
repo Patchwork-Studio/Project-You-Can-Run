@@ -2,6 +2,7 @@
 
 var collidableTopdown = [];
 var flipPlayer = false;
+var playerFrameCounter = 0;
 
 createMapTD();
 
@@ -18,7 +19,7 @@ function createMapTD()
 			map[level][row][col] = tile; // Tile object is stored in 2D array.
 		}
 	}
-    player.img = images[2];
+    player.img = images[11];
     slime1.img = images[4];
     slime2.img = images[4];
     slime3.img = images[4];
@@ -94,19 +95,30 @@ function checkCollisionEnemyTD()
 
 function movePlayerTopdown()
 {
+    playerFrameCounter++;
 	if ((leftPressed == true) && (player.x > 0)) {
-        player.img = images[3];
+        flipPlayer = true;
         player.x -= player.Speed;
     }
 		
 	if ((rightPressed == true)&&(player.x < 576)) {
-        player.img = images[2];
+        flipPlayer = false;
         player.x += player.Speed;
     }
 	if ((upPressed == true)&&(player.y > 0))
             player.y -= player.Speed;
 	if ((downPressed == true)&&(player.y < 576))
             player.y += player.Speed;
+}
+
+function updatePlayerSprite() {
+    if (playerFrameCounter % 5 == 0) {
+        if (flipPlayer == false) {
+            player.img = player.img == images[11] ? images[12] : images[11];
+        } else {
+            player.img = player.img == images[13] ? images[14] : images[13];
+        }
+    }
 }
 
 function renderTopdown()
@@ -137,7 +149,8 @@ function renderTopdown()
 
 function updateTopDown()
 {
-	movePlayerTopdown();
+    movePlayerTopdown();
+    updatePlayerSprite();
     checkCollisionTD(collidableTopdown);
     checkCollisionEnemyTD();
     renderTopdown();

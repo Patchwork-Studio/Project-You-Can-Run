@@ -61,7 +61,12 @@ var tKey = 0, cKey = 0;
 
 var level = 0;
 
-var imgStr = ["path", "wall",  "player", "player_flipped","slime", "slime2", "slime_flipped", "slime2_flipped"];
+var imgStr = [  "path", "wall",
+                "player", "player_flipped",
+                "slime", "slime2", "slime_flipped", "slime2_flipped",
+                "soldier_jump1", "soldier_jump2", "soldier_jump3",
+                "playerTopDown1", "playerTopDown2", "playerTopDown1_flipped", "playerTopDown2_flipped"
+             ];
 var images = []; // array for image objects 0=path, 1=wall, 2=slime, 3=player
 
 var tileSpriteStr = ["top_down_tile1","top_down_tile2","top_down_tile3","top_down_tile4","top_down_tile5",

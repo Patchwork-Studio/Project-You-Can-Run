@@ -159,25 +159,39 @@ function slimeMovement()
 	for (var a = 0; a < enemyArray[level].length; a++)
         {
 			for(var b = 1; b < enemyArray[level][a].length; b++){
-			if(enemyArray[level][a][b].moveType == 0)
-				enemyArray[level][a][b].ArenaX += enemyArray[level][a][b].Speed;
-			else
-				enemyArray[level][a][b].ArenaY += enemyArray[level][a][b].Speed;
+			if (enemyArray[level][a][b].moveType == 0) {
+                enemyArray[level][a][b].ArenaX += enemyArray[level][a][b].Speed;
+            } else {
+                enemyArray[level][a][b].ArenaY += enemyArray[level][a][b].Speed;
+            }
 			
             enemyArray[level][a][b].changeTimer += 16.67;
-			if(enemyArray[level][a][b].changeTimer >= enemyArray[level][a][b].changeTime){
 
+			if(enemyArray[level][a][b].changeTimer >= enemyArray[level][a][b].changeTime){
 				enemyArray[level][a][b].changeTimer = 0;
                 enemyArray[level][a][b].Speed *= -1;
             }
-
-            if (spriteFrameCounter % 5 == 0) {
-                if (enemyArray[level][a][b].Speed > 0) {
-                    enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[4] ? images[5] : images[4];
-                } else {
-                    enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[6] ? images[7] : images[6];
+            
+            if (enemyArray[level][a][b].moveType == 0) {
+                //updateSprites(4, 5, 6, 7);
+                if (spriteFrameCounter % 5 == 0) {
+                    if (enemyArray[level][a][b].Speed > 0) {
+                        enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[4] ? images[5] : images[4];
+                    } else {
+                        enemyArray[level][a][b].img = enemyArray[level][a][b].img == images[6] ? images[7] : images[6];
+                    }
+                }
+            } else {
+                //updateSprites(8, 8, 10, 10);
+                if (spriteFrameCounter % 5 == 0) {
+                    if (enemyArray[level][a][b].Speed > 0) {
+                        enemyArray[level][a][b].img = images[10];
+                    } else {
+                        enemyArray[level][a][b].img = images[8];
+                    }
                 }
             }
+            
 			}
         }
 }
