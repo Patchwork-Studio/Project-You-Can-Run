@@ -3,7 +3,7 @@ canvas.width = 640;
 canvas.height = 640;
 var ROWS = 10;
 var COLS = 10;
-var gameTime = 180;
+var gameTime = 60;
 var uInt;
 var context = canvas.getContext("2d");
 var surface = canvas.getContext("2d");
@@ -74,19 +74,19 @@ var imgStr = [  "path", "wall",
              ];
 var images = []; // array for image objects 0=path, 1=wall, 2=slime, 3=player
 
-var tileSpriteStr = 
+var tileSpriteStr =
 [                                              ["top_down_tile1","top_down_tile2","top_down_tile3","top_down_tile4","top_down_tile5",
 "top_down_tile6","top_down_tile7","top_down_tile8","top_down_tile9","top_down_tile10",
 "top_down_tile11","top_down_block_tile1", "top_down_block_tile2"],
- 
+
 ["Dirt-Tile1","Dirt-Tile2","Dirt-Tile3","Dirt-Tile4","Dirt-Tile5","Dirt-Tile6",
  "Desert-Tile1","Desert-Tile2","Desert-Tile3","Desert-Tile4","Desert-Tile5","top_down_block_tile1", "top_down_block_tile2"],
- 
+
 ["Grass-Tile1","Grass-Tile2","Grass-Tile3","Grass-Tile4","Grass-Tile5","Dirt-Tile1",
 "Dirt-Tile2","Dirt-Tile3","Grass-Tile8","Grass-Tile7","Grass-Tile6","top_down_block_tile1", "top_down_block_tile2"],
 ];
 
-var tileSprites = 
+var tileSprites =
     [
         [],
         [],
@@ -119,6 +119,7 @@ var player =    // all variables for player
         inAir: false,
         jump: false,
         jumptimer:0,
+        lifeCounter:3,
     };
 
 var debug = false;
@@ -201,7 +202,7 @@ function update()
     {
 	   sideScroll();
 	}
-	
+
 	checkLevelPass();
     if (levelComplete || debug == true)
         {
@@ -234,11 +235,11 @@ function transition(display)
 }
 
 function checkLevelPass(){
-	
+
 	for(var d = 0; d < enemyArray[level].length; d++){
-		
+
 		if(enemyArray[level][d][0].isAlive){
-			
+
 			levelComplete = false;
 			return;
 		}
@@ -248,7 +249,7 @@ function checkLevelPass(){
 }
 
 function resetEnemies(){
-	
+
 	slime1.isAlive = true;
 	slime2.isAlive = true;
 	slime3.isAlive = true;
