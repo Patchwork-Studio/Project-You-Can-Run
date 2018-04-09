@@ -117,17 +117,15 @@ function checkCollisionEnemyC()
 						player.y = player.topDownY;
 						numEnemies = 0;
 						inCombat = false;
+                        transition(backDrop);
 					}
                 }
-                else{
-
-                    uInt = clearInterval(update);
-                    player.x = 0;
-                    player.y = 576;
-                    enemyArray[level][a][b].inCombat = false;
-					numEnemies = 0;
+                else
+                {
+                    clearInterval(uInt);
                     inCombat = false;
-                    window.alert("GAMEOVER");
+                    clear();
+                    surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
                 }
             }
         }
@@ -260,11 +258,13 @@ function updateCombat()
 {
     checkCollisionC(collidableArena);
 	checkCollisionEnemyC();
-    renderSidescroll();
     movePlayerArena();
 	slimeMovement();
     playerJump();
     gravity();
+    if(inCombat == false)
+        return;
+    renderSidescroll();
 /*
     for (let index = 0; index < enemyArray[level].length; index++) {
 		

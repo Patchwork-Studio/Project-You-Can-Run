@@ -80,10 +80,11 @@ function checkCollisionEnemyTD()
                     player.topDownX = player.x;
                     player.topDownY = player.y;
 			         inCombat = true;
+                    transition(backDrop);
 			         player.y = 512;
                     player.x = 64;
-					for(b = 0; b < enemyArray[level][a].length; b++){
-                    
+					for(b = 0; b < enemyArray[level][a].length; b++)
+                    {
 						enemyArray[level][a][b].inCombat = true;
 						numEnemies++;
 					}
@@ -153,6 +154,8 @@ function updateTopDown()
     updatePlayerSprite();
     checkCollisionTD(collidableTopdown);
     checkCollisionEnemyTD();
+    if(inCombat == true)
+        return;
     renderTopdown();
 }
 

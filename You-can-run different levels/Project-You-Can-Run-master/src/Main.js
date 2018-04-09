@@ -32,11 +32,15 @@ var bgImage = new Image();
 var titleImage = new Image();
 var playImage = new Image();
 var logoImage = new Image();
+var backDrop = new Image();
+var gameOver = new Image();
 
 bgImage.src = "../img/dungeon_background.png";
 titleImage.src = "../img/gametitle.png";
 playImage.src = "../img/playbutton.png";
 logoImage.src = "../img/patchwork.png";
+backDrop.src = "../img/backdrop.png";
+gameOver.src = "../img/game over.png";
 
 var mouse = {x:0, y:0}; // Keeping track of the mouse position in the canvas.
 var mouseDown = false;  // Like a keypressed flag, I am recording if the mouse has been pressed.
@@ -140,7 +144,12 @@ function nextLevel(event)
         }
          , 1000);
 
-uInt = setInterval(update, 33.34);
+setUpdate();
+
+function setUpdate()
+{
+    uInt = setInterval(update, 33.34);
+}
 
 function clear()
 {
@@ -194,31 +203,34 @@ function update()
 	}
 	
 	checkLevelPass();
-	
-	
     if (levelComplete || debug == true)
         {
             debug = false;
             level = level + 1;
             collidableTopdown = [];
-            if (level >=3) {
-			
+            if (level >=3)
+            {
 				level = 0;
 				window.alert("Congratulations, you win!");
             }
-            createMapTD();
-            player.x = 0;
-            player.y = 576;
-			/*
-            for ( a = 0; a < enemyArray[level].length; a++)
-			{
-				for(var b = 0; b < enemyArray[level][a]; b++){
-					
-					enemyArray[level][a][b].isAlive = true;
-				}
-            }*/
-			resetEnemies();
+            else
+            {
+                transition(backDrop);
+                createMapTD();
+                player.x = 0;
+                player.y = 576;
+                resetEnemies();
+            }
         }
+}
+
+function transition(display)
+{
+    clearInterval(uInt);
+    clear();
+    surface.drawImage(display, 0, 0, 640, 640);
+    //surface.drawImage(info); (pass as second paramater)
+    setTimeout(setUpdate, 1700);
 }
 
 function checkLevelPass(){
