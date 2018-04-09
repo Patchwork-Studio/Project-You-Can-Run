@@ -111,6 +111,7 @@ function checkCollisionEnemyC()
         			}
         			else if((player.y+54 > enemyArray[level][a][b].ArenaY)&&(!(player.y + 40 > enemyArray[level][a][b].ArenaY + 64))&&(!(player.x + 40 < enemyArray[level][a][b].ArenaX))&&(!(player.x + 22 > enemyArray[level][a][b].ArenaX + 64)))
                     {
+                       // console.log("kill confirmed");
                       enemyArray[level][a][b].isAlive = false;
                       enemyArray[level][a][b].inCombat = false;
                       numEnemies -= 1;

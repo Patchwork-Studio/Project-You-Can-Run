@@ -3,7 +3,8 @@ canvas.width = 640;
 canvas.height = 640;
 var ROWS = 10;
 var COLS = 10;
-var gameTime = 60;
+var startTime = 60;
+var gameTime = startTime;
 var uInt;
 var context = canvas.getContext("2d");
 var surface = canvas.getContext("2d");
@@ -136,11 +137,13 @@ function nextLevel(event)
           gameTime--;
           //console.log(gameTime);
           document.getElementById('timer').innerHTML = gameTime;
-          if(gameTime <= 0){
-            player.x = 0;
-            player.y = 576;
-            window.alert("Timed out, game over.");
-            clearInterval(gameTimer);
+          if(gameTime < 0){
+            document.getElementById('timer').innerHTML= "Time's up";
+            clearInterval(uInt);
+                  inCombat = false;
+                  clear();
+                  surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
+                uInt = clearInterval(update);
           }
         }
          , 1000);
@@ -209,6 +212,7 @@ function update()
             debug = false;
             level = level + 1;
             collidableTopdown = [];
+            gameTime = startTime;
             if (level >=3)
             {
 				level = 0;
