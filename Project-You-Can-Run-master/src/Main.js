@@ -9,9 +9,19 @@ var uInt;
 var context = canvas.getContext("2d");
 var surface = canvas.getContext("2d");
 var sound = document.createElement("AUDIO");
-sound.src = "../audio/background.wav";
+sound.src = "../audio/Crusade.mp3";
 sound.loop = true;
 sound.play();
+var levelC = new Image();
+levelC.src = "../img/lc.png";
+var gameDone = false;
+
+
+var width = canvas.getAttribute('width');
+var height = canvas.getAttribute('height');
+	
+var mouseX;
+var mouseY;
 
 
 var eScript = document.createElement("script");
@@ -46,23 +56,38 @@ var logoImage = new Image();
 var backDrop = new Image();
 var gameOver = new Image();
 var arrowMark = new Image();
-var levelC = new Image();
+var selectionIconImage = new Image();
 
+var selectionIconX = [0,0];
+var selectionIconY = [0,0];
+var selectionIconWidth = 24;
+var selectionIconHeight = 36;
 
-bgImage.src = "../img/dungeon_background.png";
-titleImage.src = "../img/gametitle.png";
-playImage.src = "../img/playbutton.png";
-logoImage.src = "../img/patchwork.png";
+var selectionIconVisible = false;
+var selectionIconSize = selectionIconWidth;
+var selectionIconRotate = 0;
+
+var frames = 30;
+var fadeId = 0;
+var time = 0.0;
+
+bgImage.src = "../img/Demon Dash Title Screen.png";
 backDrop.src = "../img/backdrop.png";
 gameOver.src = "../img/game over.png";
 arrowMark.src = "../img/arrowmark.png";
-levelC.src = "../img/lc.png";
+selectionIconImage.src = "../img/Selection Icon.png";
+
+// 'Play' Button
+var buttonX = 230;
+var buttonY = 460;
+var buttonWidth = 175;
+var buttonHeight = 40;
 
 var mouse = {x:0, y:0}; // Keeping track of the mouse position in the canvas.
 var mouseDown = false;  // Like a keypressed flag, I am recording if the mouse has been pressed.
 
-canvas.addEventListener("mousemove", updateMouse);
-canvas.addEventListener("mousedown", onMouseDown);
+canvas.addEventListener("mousemove", checkPos);
+canvas.addEventListener("mousedown", checkClick);
 canvas.addEventListener("mouseup", onMouseUp);
 
 
@@ -79,7 +104,6 @@ var play = false;
 var inCombat = false;
 var levelComplete = false;
 var inBossCombat = false;
-var gameDone = false;
 var tKey = 0, cKey = 0;
 
 var level = 0;
@@ -138,7 +162,7 @@ var player =    // all variables for player
         inAir: false,
         jump: false,
         jumptimer:0,
-        lifeCounter:100,
+        lifeCounter:20,
     };
 
 var debug = false;
@@ -168,6 +192,36 @@ function nextLevel(event)
 
 setUpdate();
 
+function checkPosMainMenu() {
+	mouseDown = false;
+	if(mouseX > buttonX && mouseX < buttonX + buttonWidth){
+		if(mouseY > buttonY && mouseY < buttonY + buttonHeight){
+			selectionIconVisible = true;
+			selectionIconX[0] = buttonX - (selectionIconWidth/2) - 2;
+			selectionIconY[0] = buttonY + 2;
+			selectionIconX[1] = buttonX + buttonWidth + (selectionIconWidth/2); 
+			selectionIconY[1] = buttonY + 2;
+		}
+	}else{
+		selectionIconVisible = false;
+	}
+}
+
+function checkClick(mouseEvent){
+	if(mouseX > buttonX && mouseX < buttonX + buttonWidth){
+		if(mouseY > buttonY && mouseY < buttonY + buttonHeight){
+			selectionIconVisible = false;
+			fadeId = setInterval("fadeOut()", 1000/frames);
+			clearInterval(uInt);
+			canvas.removeEventListener("mousemove", checkPos);
+			canvas.removeEventListener("mouseup", checkClick);
+			mouseDown = true;
+			play = true;
+			uInt = setInterval("update()", 33.34);
+		}
+	}
+}
+
 function setUpdate()
 {
     uInt = setInterval(update, 33.34);
@@ -178,15 +232,27 @@ function clear()
     context.clearRect(0, 0, canvas.width, canvas.height); // clears the canvas completely (just to be sure)
 }
 
+function move(){
+	if(selectionIconSize == selectionIconWidth){
+		selectionIconRotate = -1;
+	}
+	if(selectionIconSize == 0){
+		selectionIconRotate = 1;
+	}
+	selectionIconSize += selectionIconRotate;
+}
+
 function draw()
 {
-	context.drawImage(bgImage, 0, 0, 640, 640);
-	context.drawImage(titleImage, 200, 200, 286, 31);
-	context.drawImage(playImage, 265, 300, 140, 80);
-	context.drawImage(logoImage, 400, 600);
+	context.drawImage(bgImage, 0, 0);
+		if(selectionIconVisible == true){
+			context.drawImage(selectionIconImage, selectionIconX[0] - (selectionIconSize/2), selectionIconY[0], selectionIconSize, selectionIconHeight);
+			context.drawImage(selectionIconImage, selectionIconX[1] - (selectionIconSize/2), selectionIconY[1], selectionIconSize, selectionIconHeight);
+		}
 }
 
 
+/*
 function updateMouse(event)
 {
 	// This check below resets the mouseDown if the mouse pointer goes outside of the canvas.
@@ -204,6 +270,8 @@ function onMouseDown(event)
 		// If I pass the checks, I'll also call moveWall to be able to click a wall into a new place.
 	}
 }
+*/
+
 
 function onMouseUp(event)
 {
@@ -211,16 +279,26 @@ function onMouseUp(event)
 		mouseDown = false;
 }
 
+function checkPos(mouseEvent){
+	if (mouseEvent.pageX || mouseEvent.pageY == 0){
+		mouseX = mouseEvent.pageX - this.offsetLeft;
+		mouseY = mouseEvent.pageY - this.offsetTop;
+	} else if(mouseEvent.offsetX || mouseEvent.offsetY == 0){
+		mouseX = mouseEvent.offsetX;
+		mouseY = mouseEvent.offsetY;
+	}
+	checkPosMainMenu();
+}
+
 function update()
 {
 	clear();
+	move();
 	draw();
 	if(!gameDone){
-    if(inCombat == false && play == true && inBossCombat == false)
-    {
-	   topDown();
-	}
-    else if (inCombat == true)
+		if(inCombat == false && play == true && inBossCombat == false) {
+	   		topDown();
+		} else if (inCombat == true)
     {
 	   sideScroll();
 	}
@@ -235,7 +313,8 @@ function update()
 			{
 			surface.drawImage(arrowMark, 580,580,64,64);
 			}
-				if(boss.defeated == true)
+				
+			if(boss.defeated == true)
 				{
 					boss.defeated = false;
 					arrow.Touched = false;
@@ -257,13 +336,8 @@ function update()
 						resetEnemies();
 					}
 				}
-
-
 		}
-
-	}
-	else{
-
+	} else {
 		surface.drawImage(levelC, 300, 200, 1320, 800, 0, 0, 640, 640);
 	}
 }
@@ -275,6 +349,16 @@ function transition(display)
     surface.drawImage(display, 0, 0, 640, 640);
     //surface.drawImage(info); (pass as second paramater)
     setTimeout(setUpdate, 1200);
+}
+
+function fadeOut(){
+	context.fillStyle = "rgba(0,0,0, 0.2)";
+	context.fillRect (0, 0, width, height);
+	time += 0.1;
+	if(time >= 1.5){
+		clearInterval(fadeId);
+		time = 0;
+	}
 }
 
 function checkLevelPass(){
@@ -296,14 +380,6 @@ function resetEnemies(){
 	slime1.isAlive = true;
 	slime2.isAlive = true;
 	slime3.isAlive = true;
-	slime4.isAlive = true;
-	slime5.isAlive = true;
-	slime6.isAlive = true;
-	slime7.isAlive = true;
-	slime8.isAlive = true;
-	slime9.isAlive = true;
-	slime10.isAlive = true;
-	slime11.isAlive = true;
 }
 
 function topDown()
