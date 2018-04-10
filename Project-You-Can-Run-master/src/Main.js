@@ -8,6 +8,11 @@ var gameTime = startTime;
 var uInt;
 var context = canvas.getContext("2d");
 var surface = canvas.getContext("2d");
+var sound = document.createElement("AUDIO");
+sound.src = "../audio/background.wav";
+sound.loop = true;
+sound.play();
+
 
 var eScript = document.createElement("script");
 eScript.src = "Enemies.js";
@@ -76,7 +81,7 @@ var tKey = 0, cKey = 0;
 
 var level = 0;
 
-var imgStr = [  "path", "wall", // 1, 2 
+var imgStr = [  "path", "wall", // 1, 2
                 "player", "player_flipped", // 3, 4,
                 "slime", "slime2", "slime_flipped", "slime2_flipped", // 5, 6, 7,
                 "soldier_jump1", "soldier_jump2", "soldier_jump3", // 8, 9, 10,
@@ -221,7 +226,7 @@ function update()
 	}
 	checkLevelPass();
     if (levelComplete || debug == true)
-        {	
+        {
 			if(arrow.Touched == false)
 			{
 			surface.drawImage(arrowMark, 580,580,64,64);
@@ -248,8 +253,8 @@ function update()
 						resetEnemies();
 					}
 				}
-				
-			
+
+
 		}
 }
 
