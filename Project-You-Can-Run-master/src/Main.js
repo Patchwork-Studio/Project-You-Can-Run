@@ -46,6 +46,7 @@ var logoImage = new Image();
 var backDrop = new Image();
 var gameOver = new Image();
 var arrowMark = new Image();
+var levelC = new Image();
 
 
 bgImage.src = "../img/dungeon_background.png";
@@ -55,6 +56,7 @@ logoImage.src = "../img/patchwork.png";
 backDrop.src = "../img/backdrop.png";
 gameOver.src = "../img/game over.png";
 arrowMark.src = "../img/arrowmark.png";
+levelC.src = "../img/lc.png";
 
 var mouse = {x:0, y:0}; // Keeping track of the mouse position in the canvas.
 var mouseDown = false;  // Like a keypressed flag, I am recording if the mouse has been pressed.
@@ -77,6 +79,7 @@ var play = false;
 var inCombat = false;
 var levelComplete = false;
 var inBossCombat = false;
+var gameDone = false;
 var tKey = 0, cKey = 0;
 
 var level = 0;
@@ -212,6 +215,7 @@ function update()
 {
 	clear();
 	draw();
+	if(!gameDone){
     if(inCombat == false && play == true && inBossCombat == false)
     {
 	   topDown();
@@ -242,7 +246,7 @@ function update()
 					if (level >=3)
 					{
 						level = 0;
-						window.alert("Congratulations, you win!");
+						gameDone = true;
 					}
 					else
 					{
@@ -256,6 +260,12 @@ function update()
 
 
 		}
+		
+	}
+	else{
+		
+		surface.drawImage(levelC, 300, 200, 1320, 800, 0, 0, 640, 640);
+	}
 }
 
 function transition(display)

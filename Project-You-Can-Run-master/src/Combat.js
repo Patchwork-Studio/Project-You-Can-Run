@@ -285,6 +285,7 @@ function renderSidescroll()
                 }
 			}
         }
+		updateGUI();
 }
 
 function updateCombat()
