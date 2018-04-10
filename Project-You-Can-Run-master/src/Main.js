@@ -138,7 +138,7 @@ var player =    // all variables for player
         inAir: false,
         jump: false,
         jumptimer:0,
-        lifeCounter:20,
+        lifeCounter:100,
     };
 
 var debug = false;
@@ -260,10 +260,10 @@ function update()
 
 
 		}
-		
+
 	}
 	else{
-		
+
 		surface.drawImage(levelC, 300, 200, 1320, 800, 0, 0, 640, 640);
 	}
 }
