@@ -286,6 +286,14 @@ function resetEnemies(){
 	slime1.isAlive = true;
 	slime2.isAlive = true;
 	slime3.isAlive = true;
+	slime4.isAlive = true;
+	slime5.isAlive = true;
+	slime6.isAlive = true;
+	slime7.isAlive = true;
+	slime8.isAlive = true;
+	slime9.isAlive = true;
+	slime10.isAlive = true;
+	slime11.isAlive = true;
 }
 
 function topDown()

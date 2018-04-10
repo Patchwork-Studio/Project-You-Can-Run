@@ -50,8 +50,8 @@ var slime4 =
         img:null,
         x:580,
         y:500,
-        ArenaX:180,
-        ArenaY:140,
+        ArenaX:384,
+        ArenaY:256,
 		Speed:4,
 		changeTime: 1000,
 		changeTimer: 0,
@@ -59,6 +59,112 @@ var slime4 =
         isAlive: true,
         inCombat: false
     }
+	
+var slime5 =
+    {
+        img:null,
+        x:580,
+        y:500,
+        ArenaX:384,
+        ArenaY:320,
+		Speed:4,
+		changeTime: 1000,
+		changeTimer: 0,
+		moveType: 0,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime6 =
+    {
+        img:null,
+        x:580,
+        y:500,
+        ArenaX:384,
+        ArenaY:448,
+		Speed:4,
+		changeTime: 1000,
+		changeTimer: 0,
+		moveType: 0,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime7 =
+    {
+        img:null,
+        x:76,
+        y:332,
+        ArenaX:180,
+        ArenaY:64,
+		Speed:4,
+		changeTime: 1000,
+		changeTimer: 0,
+		moveType: 0,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime8 =
+    {
+        img:null,
+        x:76,
+        y:332,
+        ArenaX:448,
+        ArenaY:320,
+		Speed:6,
+		changeTime: 500,
+		changeTimer: 0,
+		moveType: 0,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime9 =
+    {
+        img:null,
+        x:76,
+        y:332,
+        ArenaX:64,
+        ArenaY:320,
+		Speed:6,
+		changeTime: 500,
+		changeTimer: 0,
+		moveType: 0,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime10 =
+    {
+        img:null,
+        x:580,
+        y:500,
+        ArenaX:384,
+        ArenaY:256,
+		Speed:4,
+		changeTime: 1000,
+		changeTimer: 0,
+		moveType: 1,
+        isAlive: true,
+        inCombat: false
+    }
+	
+var slime11 =
+    {
+        img:null,
+        x:580,
+        y:500,
+        ArenaX:192,
+        ArenaY:256,
+		Speed:4,
+		changeTime: 1000,
+		changeTimer: 0,
+		moveType: 1,
+        isAlive: true,
+        inCombat: false
+    }
+
 var arrow =
 	{
 		x:580,

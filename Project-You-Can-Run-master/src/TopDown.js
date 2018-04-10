@@ -24,6 +24,13 @@ function createMapTD()
     slime2.img = images[4];
     slime3.img = images[4];
 	slime4.img = images[4];
+	slime5.img = images[4];
+	slime6.img = images[4];
+	slime7.img = images[4];
+    slime8.img = images[4];
+	slime9.img = images[4];
+	slime10.img = images[4];
+	slime11.img = images[4];
 }
 
 function setTileTypeTD(t, r, c)
@@ -163,6 +170,16 @@ function renderTopdown()
                                       enemyArray[level][a][0].x, enemyArray[level][a][0].y, 72, 72);
                 }
         }
+		
+	updateGUI();
+}
+
+function updateGUI(){
+	
+	surface.font = "30px Arial";
+	surface.fillStyle = "white";
+	surface.fillText("Level: " + (level+1), 0, canvas.height - (canvas.height/7 - 30));
+	surface.fillText("Timer: " + gameTime, 0, canvas.height - (canvas.height/7 - 60));
 }
 
 function updateTopDown()

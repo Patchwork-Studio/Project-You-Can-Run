@@ -25,6 +25,13 @@ function createMapC()
     slime2.img = images[4];
     slime3.img = images[4];
 	slime4.img = images[4];
+	slime5.img = images[4];
+	slime6.img = images[4];
+	slime7.img = images[4];
+    slime8.img = images[4];
+	slime9.img = images[4];
+	slime10.img = images[4];
+	slime11.img = images[4];
 	boss.img = images[15];
 }
 
