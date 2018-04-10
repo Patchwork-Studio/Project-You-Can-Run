@@ -19,7 +19,7 @@ function createMapTD()
 			map[level][row][col] = tile; // Tile object is stored in 2D array.
 		}
 	}
-    player.img = images[11];
+    player.img = images[2];
     slime1.img = images[4];
     slime2.img = images[4];
     slime3.img = images[4];
@@ -30,11 +30,11 @@ function setTileTypeTD(t, r, c)
 {
     if(map[level][r][c] == 1)
         {
-			t.img = tileSprites[11];
+			t.img = tileSprites[level][11];
             collidableTopdown.push(t); //add tile to collidable array
 		}
     else
-            t.img = tileSprites[getRandomInt(0, 10)];
+            t.img = tileSprites[level][getRandomInt(0, 10)];
 }
 
 function checkCollisionTD(collidable)
@@ -80,10 +80,11 @@ function checkCollisionEnemyTD()
                     player.topDownX = player.x;
                     player.topDownY = player.y;
 			         inCombat = true;
+                    transition(backDrop);
 			         player.y = 512;
                     player.x = 64;
-					for(b = 0; b < enemyArray[level][a].length; b++){
-                    
+					for(b = 0; b < enemyArray[level][a].length; b++)
+                    {
 						enemyArray[level][a][b].inCombat = true;
 						numEnemies++;
 					}
@@ -92,6 +93,23 @@ function checkCollisionEnemyTD()
         }
     }
 }
+
+function checkCollisionArrowMark()
+{
+
+        if (!(player.y+32 > arrow.y+48 || //player top, enemy bottom
+              player.y+50 < arrow.y    || //player bottom, enemy top
+              player.x+14 > arrow.x+48 || //player left, enemy right
+              player.x+48 < arrow.x   ))  //player right, enemy left
+        {
+			player.x = 62; // without these two the player will spawn in the Arena from where they last touched the arrow mark
+			player.y = 490; // 
+			arrow.Touched = true;
+			inBossCombat = true;
+        }
+    
+}
+
 
 function movePlayerTopdown()
 {
@@ -152,7 +170,10 @@ function updateTopDown()
     movePlayerTopdown();
     updatePlayerSprite();
     checkCollisionTD(collidableTopdown);
+	checkCollisionArrowMark();
     checkCollisionEnemyTD();
+    if(inCombat == true)
+        return;
     renderTopdown();
 }
 
