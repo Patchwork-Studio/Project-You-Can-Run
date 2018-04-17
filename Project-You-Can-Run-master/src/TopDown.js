@@ -180,6 +180,13 @@ function updateGUI(){
 	surface.fillStyle = "white";
 	surface.fillText("Level: " + (level+1), 0, canvas.height - (canvas.height/7 - 30));
 	surface.fillText("Timer: " + gameTime, 0, canvas.height - (canvas.height/7 - 60));
+    if(gameTime < 0){
+            clearInterval(uInt);
+                  inCombat = false;
+                  clear();
+                  surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
+                uInt = clearInterval(update);
+          }
 }
 
 function updateTopDown()
