@@ -4,7 +4,15 @@ var collidableArena = [];
 var spriteFrameCounter = 0;
 var numEnemies = 0;
 
+
 createMapC();
+
+//function onHitRecovery()
+//{
+    //Invulnerable for 2 seconds
+
+    //Flash animation for 2 seconds   
+//}
 
 function createMapC()
 {
@@ -58,6 +66,7 @@ function checkCollisionC(collidable)
 {
     for(var c = 0; c < collidable.length; c++)
     {
+
         if (!(player.y+32 > collidable[c].y+64 || //player top, wall bottom
               player.y+54 < collidable[c].y    || //player bottom, wall top
               player.x+14 > collidable[c].x+64 || //player left, wall right
@@ -121,14 +130,15 @@ function checkCollisionEnemyC()
                   player.x+48 < enemyArray[level][a][b].ArenaX   ))  //player right, enemy left
             {
 
-              if((player.y+32 < enemyArray[level][a][b].ArenaY+48)&&(!(player.y + 46 < enemyArray[level][a][b].ArenaY))&&(!(player.x + 40 < enemyArray[level][a][b].ArenaX))&&(!(player.x + 22 > enemyArray[level][a][b].ArenaX + 64)))
+        	if(player.y+47 < enemyArray[level][a][b].ArenaY+6)
                     {
-        				player.x = enemyArray[level][a][b].ArenaX + 64;
-                player.lifeCounter--;
-        			}
-        			else if(player.y+54 > enemyArray[level][a][b].ArenaY)//&&(!(player.y + 40 > enemyArray[level][a][b].ArenaY + 64))&&(!(player.x + 40 < enemyArray[level][a][b].ArenaX))&&(!(player.x + 22 > enemyArray[level][a][b].ArenaX + 64)))
-                    {
-                       // console.log("kill confirmed");
+
+                        console.log("kill confirmed");
+                        console.log("Player y: " + player.y);
+                        console.log("Enemy y: " + enemyArray[level][a][b].ArenaY);
+                        console.log("Player x: " + player.x);
+                        console.log("Enemy x: " + enemyArray[level][a][b].ArenaX);
+                        gotHit = false;
                       enemyArray[level][a][b].isAlive = false;
                       enemyArray[level][a][b].inCombat = false;
                       numEnemies -= 1;
@@ -137,21 +147,16 @@ function checkCollisionEnemyC()
                         player.x = player.topDownX;
                         player.y = player.topDownY;
                         numEnemies = 0;
-                        gameTime+=10;
+                        gameTime += 10;
                         inCombat = false;
                       }
         			}
-        			else if((player.x+14 < enemyArray[level][a][b].ArenaX+64)&&(!(player.x + 40 < enemyArray[level][a][b].ArenaX))&&(!(player.y + 46 < enemyArray[level][a][b].ArenaY))&&(!(player.y + 40 > enemyArray[level][a][b].ArenaY + 64)))
-                    {
-        				player.x = enemyArray[level][a][b].ArenaX + 64;
-                player.lifeCounter--;
-        			}
-        			else if((player.x+48 > enemyArray[level][a][b].ArenaX)&&(!(player.x + 22 > enemyArray[level][a][b].ArenaX + 64))&&(!(player.y + 46 < enemyArray[level][a][b].ArenaY))&&(!(player.y + 40 > enemyArray[level][a][b].ArenaY + 64)))
-                    {
-        				player.x = enemyArray[level][a][b].ArenaX - 64;
-                player.lifeCounter--;
-        			}
-              if (player.lifeCounter <= 0) {
+                    else{
+                        player.x = 64;
+                        player.y = 522;
+                        player.lifeCounter--;
+                    }
+            if (player.lifeCounter <= 0) {
                   clearInterval(uInt);
                   inCombat = false;
                   clear();
