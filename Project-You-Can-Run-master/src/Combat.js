@@ -5,15 +5,6 @@ var spriteFrameCounter = 0;
 var numEnemies = 0;
 
 
-createMapC();
-
-//function onHitRecovery()
-//{
-    //Invulnerable for 2 seconds
-
-    //Flash animation for 2 seconds   
-//}
-
 function createMapC()
 {
     for (var row = 0; row < ROWS; row++)

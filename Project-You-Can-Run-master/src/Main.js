@@ -177,16 +177,6 @@ function nextLevel(event)
 
     var gameTimer = setInterval(function(){
           gameTime--;
-          //console.log(gameTime);
-          document.getElementById('timer').innerHTML = gameTime;
-          if(gameTime < 0){
-            document.getElementById('timer').innerHTML= "Time's up";
-            clearInterval(uInt);
-                  inCombat = false;
-                  clear();
-                  surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
-                uInt = clearInterval(update);
-          }
         }
          , 1000);
 
