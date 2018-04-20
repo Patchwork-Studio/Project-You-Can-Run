@@ -1,0 +1,17 @@
+body
+{
+	background-color: black;
+	text-align: center;
+}
+
+p
+{
+	color: white;
+}
+
+#stage
+{
+	width: 640px;
+	height: 640px;
+	background-color: lightsteelblue;
+}
