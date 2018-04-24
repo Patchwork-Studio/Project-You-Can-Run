@@ -257,7 +257,7 @@ var boss =
         ArenaX:180,
         ArenaY:140,
         Speed:4,
-        Health:10,
+        Health:5,
 		changeTime: 1000,
 		changeTimer: 0,
 		moveType: 0,

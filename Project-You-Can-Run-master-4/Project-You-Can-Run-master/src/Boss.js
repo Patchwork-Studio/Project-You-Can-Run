@@ -6,12 +6,9 @@ function checkCollisionWithBoss()
           player.x+14 > boss.ArenaX+48 || //player left, enemy right
           player.x+48 < boss.ArenaX   ))  //player right, enemy left
         {
-			if(!(player.y+32 > boss.ArenaY+48 || //player top, enemy bottom
-				player.y+50 < boss.ArenaY  || //player bottom, enemy top
-				player.x+14 > boss.ArenaX+48 || //player left, enemy right
-				player.x+48 < boss.ArenaX))
+			if(player.y+47 < boss.ArenaY+10)
 			{
-				player.y -= 110;
+				player.y -= 90;
 				
 				boss.Health--;
 				console.log(boss.Health);
@@ -19,18 +16,32 @@ function checkCollisionWithBoss()
 				{
 				inBossCombat = false;
 				boss.defeated = true;
-				boss.Health = 10; 
+				boss.Health = 5; 
 				}
 				
 			}
-			else
+		
+		else
+		{
+			player.lifeCounter--;
+			if(player.x+48 > boss.ArenaX+10)
 			{
-                    clearInterval(uInt);
-                    inCombat = false;
-                    clear();
-                    surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
+				player.x += 40;
 			}
+			else if(player.x+48 < boss.ArenaX+10)
+			{
+				player.x -= 40;
+			}
+			console.log(player.x);
 		}
+		if (player.lifeCounter <= 0) {
+			clearInterval(uInt);
+			inCombat = false;
+			clear();
+			surface.drawImage(gameOver, 300, 200, 1320, 800, 0, 0, 640, 640);
+		  uInt = clearInterval(update);
+		}
+	}
 }
 function BossHealthDisplay()
 {

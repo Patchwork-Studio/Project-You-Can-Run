@@ -125,7 +125,7 @@ function checkCollisionEnemyC()
                   player.x+48 < enemyArray[level][a][b].ArenaX   ))  //player right, enemy left
             {
 
-        	if(player.y+47 < enemyArray[level][a][b].ArenaY+6)
+        	if(player.y+47 < enemyArray[level][a][b].ArenaY+20)
                     {
 
                         console.log("kill confirmed");

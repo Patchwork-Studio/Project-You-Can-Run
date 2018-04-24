@@ -46,7 +46,7 @@ var enemyArray =
 [
 	[[slime1, slime1, slime4], [slime2, slime2, slime5, slime6], [slime3, slime3]],
 	[[slime1, slime1, slime4], [slime2, slime2, slime5, slime6], [slime3, slime3, slime7, slime8]],
-	[[slime1, slime1, slime9, slime10, slime11, slime7], [slime2, slime2, slime5, slime6, slime4, slime3, slime8], [slime12, slime12, slime14, slime15, slime16]],
+	[[slime1, slime1, slime9, slime10, slime11, slime7], [slime2, slime2, slime5, slime6, slime4, slime3, slime8], [slime12, slime12, slime13, slime14, slime15, slime16]],
 ]
 
 var arena =
