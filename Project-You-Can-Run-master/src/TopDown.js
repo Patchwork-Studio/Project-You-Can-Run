@@ -87,7 +87,7 @@ function checkCollisionEnemyTD()
                     player.topDownX = player.x;
                     player.topDownY = player.y;
 			         inCombat = true;
-                    transition(backDrop);
+                    transition(enterArena);
 			         player.y = 512;
                     player.x = 64;
 					for(b = 0; b < enemyArray[level][a].length; b++)
@@ -178,8 +178,9 @@ function updateGUI(){
 	
 	surface.font = "30px Arial";
 	surface.fillStyle = "white";
-	surface.fillText("Level: " + (level+1), 0, canvas.height - (canvas.height/7 - 30));
-	surface.fillText("Timer: " + gameTime, 0, canvas.height - (canvas.height/7 - 60));
+	surface.fillText("Level: " + (level+1), 0, canvas.height - (canvas.height/7-10));
+    surface.fillText("Health: " + player.lifeCounter, 0, canvas.height - (canvas.height/7 - 40));
+	surface.fillText("Timer: " + gameTime, 0, canvas.height - (canvas.height/7 - 70));
     if(gameTime < 0){
             clearInterval(uInt);
                   inCombat = false;

@@ -53,10 +53,12 @@ var bgImage = new Image();
 var titleImage = new Image();
 var playImage = new Image();
 var logoImage = new Image();
-var backDrop = new Image();
+var enterArena = new Image();
+var exitArena = new Image();
 var gameOver = new Image();
 var arrowMark = new Image();
 var selectionIconImage = new Image();
+var levelChange = new Image();
 
 var selectionIconX = [0,0];
 var selectionIconY = [0,0];
@@ -72,10 +74,12 @@ var fadeId = 0;
 var time = 0.0;
 
 bgImage.src = "../img/Demon Dash Title Screen.png";
-backDrop.src = "../img/backdrop.png";
+enterArena.src = "../img/enterArena.png";
+exitArena.src = "../img/exitArena.png";
 gameOver.src = "../img/game over.png";
 arrowMark.src = "../img/arrowmark.png";
 selectionIconImage.src = "../img/Selection Icon.png";
+levelChange.src = "../img/levelChange.png";
 
 // 'Play' Button
 var buttonX = 230;
@@ -319,7 +323,7 @@ function update()
 					}
 					else
 					{
-						transition(backDrop);
+						transition(levelChange);
 						createMapTD();
 						player.x = 0;
 						player.y = 576;
@@ -337,7 +341,6 @@ function transition(display)
     clearInterval(uInt);
     clear();
     surface.drawImage(display, 0, 0, 640, 640);
-    //surface.drawImage(info); (pass as second paramater)
     setTimeout(setUpdate, 1200);
 }
 

@@ -144,6 +144,7 @@ function checkCollisionEnemyC()
                         numEnemies = 0;
                         gameTime += 10;
                         inCombat = false;
+                        transition(exitArena);
                       }
         			}
                     else{
