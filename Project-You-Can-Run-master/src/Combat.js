@@ -5,6 +5,7 @@ var spriteFrameCounter = 0;
 var numEnemies = 0;
 
 
+
 function createMapC()
 {
     for (var row = 0; row < ROWS; row++)
@@ -34,10 +35,13 @@ function createMapC()
 	boss.img = images[15];
 }
 
+createMapC();
+
 function setTileTypeC(t, r, c)
 {
     if(arena[r][c] == 1)
         {
+            t.img = new Image(); 
 			t.img = images[1];
             collidableArena.push(t); //add tile to collidable array
 		}
@@ -263,8 +267,9 @@ function renderSidescroll()
 	{
 		for (var col = 0; col < COLS; col++)
 		{
-			surface.drawImage(arena[row][col].img, arena[row][col].x, arena[row][col].y);
-		}
+			
+            surface.drawImage(arena[row][col].img, arena[row][col].x, arena[row][col].y);
+        }
 	}
 	surface.drawImage(player.img,
 					  64*player.Sprite, 0, 64, 64, 	// Source rectangle.
